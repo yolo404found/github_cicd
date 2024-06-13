@@ -17,33 +17,16 @@ jobs:
         
     steps:
     - uses: actions/checkout@v4
-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        
     - run: npm ci
-    
     - run: npm run build --if-present
-
-    - name: Add debugging information
-      run: |
-        git --version
-        git status
-        git worktree list
-        ls -la
+    - run: npm test
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        folder: build
-
-    - name: Ensure clean state
-      run: |
-        git checkout main
-        git pull origin main
-        git worktree prune
-        git worktree remove github-pages-deploy-action-temp-deployment-folder --force
-      continue-on-error: true
+       folder: build
