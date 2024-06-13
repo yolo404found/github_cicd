@@ -29,11 +29,4 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
        folder: build
-
-     - name: Ensure clean state
-      run: |
-        git checkout main
-        git pull origin main
-        git worktree prune
-        git worktree remove github-pages-deploy-action-temp-deployment-folder --force
-      continue-on-error: true
+       token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
